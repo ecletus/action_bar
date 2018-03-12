@@ -34,11 +34,11 @@ type AdminAuth struct {
 }
 
 func (AdminAuth) LoginURL(c *admin.Context) string {
-	return "/auth/login"
+	return c.GenGlobalURL("/auth/login")
 }
 
 func (AdminAuth) LogoutURL(c *admin.Context) string {
-	return "/auth/logout"
+	return c.GenGlobalURL("/auth/logout")
 }
 
 func (AdminAuth) GetCurrentUser(c *admin.Context) qor.CurrentUser {
@@ -73,7 +73,7 @@ func init() {
 	})
 	db := utils.TestDB()
 	Server = httptest.NewServer(mux)
-	Admin := admin.New(&qor.Config{DB: db})
+	Admin := admin.New(qor.NewConfig(db))
 	Admin.SetAuth(AdminAuth{})
 	Admin.MountTo("/admin", mux)
 	Admin.AddResource(User{})

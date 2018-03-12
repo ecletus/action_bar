@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"strings"
 
+	"github.com/qor/qor/utils/url"
 	"github.com/qor/admin"
 	"github.com/qor/qor/utils"
 )
@@ -31,7 +32,7 @@ func (action Action) ToHTML(context *admin.Context) template.HTML {
 	}
 	name := context.Admin.T(context.Context, "qor_action_bar.action."+action.Name, action.Name)
 
-	return toLink(string(name), action.Link, context.Admin)
+	return toLink(context, string(name), action.Link, context.Admin)
 }
 
 type EditResourceAction struct {
@@ -54,7 +55,7 @@ func (action EditResourceAction) ToHTML(context *admin.Context) template.HTML {
 		admin          = context.Admin
 		resourceParams = utils.ModelType(action.Value).Name()
 		resourceName   = resourceParams
-		editURL, _     = utils.JoinURL(context.URLFor(action.Value, action.Resource), "edit")
+		editURL, _     = url.JoinURL(context.URLFor(action.Value, action.Resource), "edit")
 	)
 
 	if action.Resource != nil {
@@ -64,7 +65,7 @@ func (action EditResourceAction) ToHTML(context *admin.Context) template.HTML {
 
 	name := context.Admin.T(context.Context, "qor_action_bar.action.edit_"+resourceParams, fmt.Sprintf("Edit %v", resourceName))
 
-	return toLink(string(name), editURL, context.Admin)
+	return toLink(context, string(name), editURL, context.Admin)
 }
 
 type HTMLAction struct {
@@ -84,11 +85,11 @@ func (action HTMLAction) ToHTML(context *admin.Context) template.HTML {
 	return action.HTML
 }
 
-func toLink(name, link string, admin *admin.Admin) template.HTML {
-	prefix := admin.GetRouter().Prefix + "/"
+func toLink(gen utils.URLGenerator, name, link string, admin *admin.Admin) template.HTML {
+	prefix := gen.GenURL(admin.GetRouter().Prefix + "/")
 
 	if strings.HasPrefix(link, prefix) {
-		jsURL := fmt.Sprintf("<script data-prefix=\"%v\" src=\"%v/assets/javascripts/action_bar_check.js?theme=action_bar\"></script>", prefix, prefix)
+		jsURL := fmt.Sprintf("<script data-prefix=\"%v\" src=\"%v/assets/javascripts/action_bar_check.js?theme=action_bar\"></script>", prefix, gen.GenStaticURL(prefix))
 		frameURL := fmt.Sprintf("%v/action_bar/inline_edit", prefix)
 
 		return template.HTML(fmt.Sprintf(`%v<a target="_blank" data-iframe-url="%v" data-url="%v" href="#" class="qor-actionbar-button">%v</a>`, jsURL, frameURL, link, name))
