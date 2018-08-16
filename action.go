@@ -5,9 +5,9 @@ import (
 	"html/template"
 	"strings"
 
-	"github.com/qor/qor/utils/url"
-	"github.com/qor/admin"
-	"github.com/qor/qor/utils"
+	"github.com/aghape/aghape/utils/url"
+	"github.com/aghape/admin"
+	"github.com/aghape/aghape/utils"
 )
 
 type ActionInterface interface {
@@ -86,7 +86,7 @@ func (action HTMLAction) ToHTML(context *admin.Context) template.HTML {
 }
 
 func toLink(gen utils.URLGenerator, name, link string, admin *admin.Admin) template.HTML {
-	prefix := gen.GenURL(admin.GetRouter().Prefix + "/")
+	prefix := gen.GenURL(admin.Router.Prefix() + "/")
 
 	if strings.HasPrefix(link, prefix) {
 		jsURL := fmt.Sprintf("<script data-prefix=\"%v\" src=\"%v/assets/javascripts/action_bar_check.js?theme=action_bar\"></script>", prefix, gen.GenStaticURL(prefix))

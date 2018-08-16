@@ -3,18 +3,11 @@ package action_bar
 import (
 	"fmt"
 
-	"github.com/qor/admin"
-	"github.com/qor/qor/utils"
-	"github.com/qor/qor/utils/url"
-	"github.com/qor/qor"
+	"github.com/aghape/admin"
+	"github.com/aghape/aghape/utils"
+	"github.com/aghape/aghape/utils/url"
 	"github.com/moisespsena/template/html/template"
 )
-
-func init() {
-	qor.IfDev(func() {
-		admin.RegisterViewPath("github.com/qor/action_bar/views")
-	})
-}
 
 // ActionBar stores configuration about a action bar.
 type ActionBar struct {
@@ -27,8 +20,8 @@ type ActionBar struct {
 func New(admin *admin.Admin) *ActionBar {
 	bar := &ActionBar{Admin: admin}
 	ctr := &controller{ActionBar: bar}
-	admin.GetRouter().Get("/action_bar/switch_mode", ctr.SwitchMode)
-	admin.GetRouter().Get("/action_bar/inline_edit", ctr.InlineEdit)
+	admin.Router.Get("/action_bar/switch_mode", ctr.SwitchMode)
+	admin.Router.Get("/action_bar/inline_edit", ctr.InlineEdit)
 	return bar
 }
 
@@ -64,7 +57,7 @@ func (bar *ActionBar) Render(context *admin.Context) template.HTML {
 		"CurrentUser":   context.Context.CurrentUser,
 		"Actions":       actions,
 		"InlineActions": inlineActions,
-		"RouterPrefix":  bar.Admin.GetRouter().Prefix,
+		"RouterPrefix":  bar.Admin.Router.Prefix(),
 	}
 	return context.Render("action_bar/action_bar", result)
 }
@@ -104,7 +97,7 @@ func (bar *ActionBar) RenderEditButtonWithResource(context *admin.Context, value
 		editURL, _   = url.JoinURL(context.URLFor(value, resources...), "edit")
 	)
 
-	if res := admin.GetResource(resourceName); res != nil {
+	if res := admin.GetResourceByID(resourceName); res != nil {
 		resourceName = string(admin.T(context.Context, fmt.Sprintf("%v.name", res.ToParam()), res.Name))
 	}
 
@@ -112,14 +105,14 @@ func (bar *ActionBar) RenderEditButtonWithResource(context *admin.Context, value
 		resourceName = string(admin.T(context.Context, fmt.Sprintf("%v.name", res.ToParam()), res.Name))
 	}
 
-	title := string(admin.T(context.Context, "qor_action_bar.action.edit_resource", "Edit {{$1}}", resourceName))
+	title := string(admin.T(context.Context, I18NGROUP + ".action.edit_resource", "Edit {{$1}}", resourceName))
 	return bar.RenderEditButton(context, title, editURL)
 }
 
 func (bar *ActionBar) RenderEditButton(context *admin.Context, title string, link string) template.HTML {
 	if bar.EditMode(context) {
 		var (
-			prefix   = bar.Admin.GetRouter().Prefix
+			prefix   = bar.Admin.Router.Prefix()
 			jsURL    = fmt.Sprintf("<script data-prefix=\"%v\" src=\"%v/assets/javascripts/action_bar_check.js?theme=action_bar\"></script>", prefix, prefix)
 			frameURL = fmt.Sprintf("%v/action_bar/inline_edit", prefix)
 		)
@@ -127,4 +120,7 @@ func (bar *ActionBar) RenderEditButton(context *admin.Context, title string, lin
 		return template.HTML(fmt.Sprintf(`%v<a target="blank" data-iframe-url="%v" data-url="%v" href="#" class="qor-actionbar-button">%v</a>`, jsURL, frameURL, link, title))
 	}
 	return template.HTML("")
+}
+
+func (bar *ActionBar) PrepareAdmin(Admin *admin.Admin) {
 }
