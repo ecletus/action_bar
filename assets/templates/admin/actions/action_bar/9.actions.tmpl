@@ -3,8 +3,8 @@
   {{ if .CurrentUser }}
     <div class="qor-actionbar__right">
       <div class="qor-actionbar__info">
-        <span>{{t "qor_action_bar.action.logged_as" "Logged in as {{.DisplayName}}" .CurrentUser}}</span>
-        <a href="{{.Auth.LogoutURL $context}}">{{t "qor_action_bar.action.logout" "LOGOUT"}}</a>
+        <span>{{tt ".action.logged_as" .CurrentUser "Logged in as {{.DisplayName}}"}}</span>
+        <a href="{{.Auth.LogoutURL $context}}">{{t ".action.logout" "LOGOUT"}}</a>
       </div>
 
       {{if .Actions}}
@@ -21,6 +21,6 @@
       {{ end }}
     </div>
   {{ else }}
-    <a class="qor-actionbar__login" href="{{.Auth.LoginURL $context}}">{{t "qor_action_bar.action.login" "LOGIN"}}</a>
+    <a class="qor-actionbar__login" href="{{.Auth.LoginURL $context}}">{{t ".action.login" "LOGIN"}}</a>
   {{ end }}
 {{end}}

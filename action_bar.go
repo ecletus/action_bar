@@ -59,6 +59,7 @@ func (bar *ActionBar) Render(context *admin.Context) template.HTML {
 		"InlineActions": inlineActions,
 		"RouterPrefix":  bar.Admin.Router.Prefix(),
 	}
+	defer context.PushI18nGroup(I18NGROUP)()
 	return context.Render("action_bar/action_bar", result)
 }
 
@@ -105,7 +106,7 @@ func (bar *ActionBar) RenderEditButtonWithResource(context *admin.Context, value
 		resourceName = string(admin.T(context.Context, fmt.Sprintf("%v.name", res.ToParam()), res.Name))
 	}
 
-	title := string(admin.T(context.Context, I18NGROUP + ".action.edit_resource", "Edit {{$1}}", resourceName))
+	title := string(admin.T(context.Context, I18NGROUP+".action.edit_resource", "Edit {{$1}}", resourceName))
 	return bar.RenderEditButton(context, title, editURL)
 }
 
