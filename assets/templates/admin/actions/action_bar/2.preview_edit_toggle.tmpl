@@ -11,7 +11,7 @@
 
       $('.qor-actionbar__module-checkbox').on('change', function (){
         setTimeout(function (){
-          window.location.href = {{ url }} + "/action_bar/switch_mode?checked=" + $('.qor-actionbar__module-checkbox').prop('checked');
+          window.location.href = "{{ url }}/action_bar/switch_mode?checked=" + $('.qor-actionbar__module-checkbox').prop('checked');
         },800)
       });
     })
