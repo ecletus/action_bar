@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/aghape/admin"
-	"github.com/aghape/aghape/utils"
-	"github.com/aghape/aghape/utils/url"
+	"github.com/aghape/core/utils"
+	"github.com/aghape/core/utils/url"
 	"github.com/moisespsena/template/html/template"
 )
 

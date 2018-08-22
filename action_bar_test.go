@@ -11,8 +11,8 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/aghape/admin"
-	"github.com/aghape/aghape"
-	"github.com/aghape/aghape/test/utils"
+	"github.com/aghape/core"
+	"github.com/aghape/core/test/utils"
 
 	"github.com/headzoo/surf"
 )
@@ -41,7 +41,7 @@ func (AdminAuth) LogoutURL(c *admin.Context) string {
 	return c.GenGlobalURL("/auth/logout")
 }
 
-func (AdminAuth) GetCurrentUser(c *admin.Context) qor.CurrentUser {
+func (AdminAuth) GetCurrentUser(c *admin.Context) core.CurrentUser {
 	if CurrentUser.Role != "admin" {
 		return nil
 	}
@@ -73,7 +73,7 @@ func init() {
 	})
 	db := utils.TestDB()
 	Server = httptest.NewServer(mux)
-	Admin := admin.New(qor.NewConfig(db))
+	Admin := admin.New(core.NewConfig(db))
 	Admin.SetAuth(AdminAuth{})
 	Admin.MountTo("/admin", mux)
 	Admin.AddResource(User{})

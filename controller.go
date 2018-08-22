@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/aghape/admin"
-	"github.com/aghape/aghape/utils"
+	"github.com/aghape/core/utils"
 )
 
 type controller struct {
