@@ -1,11 +1,11 @@
 package action_bar
 
 import (
-	"github.com/aghape/admin/adminplugin"
+	"github.com/aghape-pkg/admin"
 	"github.com/aghape/plug"
 )
 
 type Plugin struct {
 	plug.EventDispatcher
-	adminplugin.AdminNames
+	admin_plugin.AdminNames
 }
