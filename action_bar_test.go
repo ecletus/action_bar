@@ -10,9 +10,9 @@ import (
 	"testing"
 
 	"github.com/fatih/color"
-	"github.com/aghape/admin"
-	"github.com/aghape/core"
-	"github.com/aghape/core/test/utils"
+	"github.com/ecletus/admin"
+	"github.com/ecletus/core"
+	"github.com/ecletus/core/test/utils"
 
 	"github.com/headzoo/surf"
 )

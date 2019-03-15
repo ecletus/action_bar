@@ -5,9 +5,9 @@ import (
 	"html/template"
 	"strings"
 
-	"github.com/aghape/admin"
-	"github.com/aghape/core/utils"
-	"github.com/aghape/core/utils/url"
+	"github.com/ecletus/admin"
+	"github.com/ecletus/core/utils"
+	"github.com/ecletus/core/utils/url"
 )
 
 type ActionInterface interface {

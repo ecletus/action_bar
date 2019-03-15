@@ -1,18 +1,18 @@
 # ActionBar
 
-ActionBar is dependant on [QOR Admin](https://github.com/aghape/admin). It provides an action bar on the top of frontend page. The bar contains:
+ActionBar is dependant on [QOR Admin](https://github.com/ecletus/admin). It provides an action bar on the top of frontend page. The bar contains:
 
 * Switcher of `Preview` and `Edit` mode
 * Login/Logout links
 * Additional links in a menu
 
-[![GoDoc](https://godoc.org/github.com/aghape/action_bar?status.svg)](https://godoc.org/github.com/aghape/action_bar)
+[![GoDoc](https://godoc.org/github.com/ecletus/action_bar?status.svg)](https://godoc.org/github.com/ecletus/action_bar)
 
 ## Usage
 
 ```go
-import "github.com/aghape/admin"
-import "github.com/aghape/action_bar"
+import "github.com/ecletus/admin"
+import "github.com/ecletus/action_bar"
 
 func main() {
   Admin := admin.New(&qor.Config{DB: db})
