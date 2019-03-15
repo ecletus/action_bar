@@ -1,9 +1,9 @@
 {{$context := .}}
 {{with .Result}}
-  {{ if .CurrentUser }}
+  {{ if (.CurrentUser) }}
     <div class="qor-actionbar__right">
       <div class="qor-actionbar__info">
-        <span>{{tt ".action.logged_as" .CurrentUser "Logged in as {{.DisplayName}}"}}</span>
+        <span>{{tt ".action.logged_as" (.CurrentUser) "Logged in as {{.DisplayName}}"}}</span>
         <a href="{{.Auth.LogoutURL $context}}">{{t ".action.logout" "LOGOUT"}}</a>
       </div>
 

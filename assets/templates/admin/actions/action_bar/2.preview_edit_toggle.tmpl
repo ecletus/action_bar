@@ -17,7 +17,7 @@
     })
   </script>
 
-  {{ if .CurrentUser }}
+  {{if (.CurrentUser)}}
     <div class="qor-actionbar__left">
       <div class="qor-actionbar__module">
         <a class="qor-actionbar__module-preview">{{t ".action.preview" "PREVIEW"}}</a>

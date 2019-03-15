@@ -96,7 +96,7 @@ func toLink(gen utils.URLGenerator, name, link string, admin *admin.Admin) templ
 	}
 	if strings.HasPrefix(link, ":admin/") {
 		link = strings.TrimPrefix(link, ":admin/")
-		link = gen.GenURL(link, admin.Router.Prefix())
+		link = gen.GenURL(link, admin.Config.MountPath)
 	} else if strings.HasPrefix(link, ":/") {
 		link = link[1:]
 	}

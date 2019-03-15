@@ -3,6 +3,8 @@ package action_bar
 import (
 	"fmt"
 
+	"github.com/moisespsena-go/xroute"
+
 	"github.com/aghape/admin"
 	"github.com/aghape/core/utils"
 	"github.com/aghape/core/utils/url"
@@ -20,8 +22,10 @@ type ActionBar struct {
 func New(admin *admin.Admin) *ActionBar {
 	bar := &ActionBar{Admin: admin}
 	ctr := &controller{ActionBar: bar}
-	admin.Router.Get("/action_bar/switch_mode", ctr.SwitchMode)
-	admin.Router.Get("/action_bar/inline_edit", ctr.InlineEdit)
+	admin.OnRouter(func(r xroute.Router) {
+		r.Get("/action_bar/switch_mode", ctr.SwitchMode)
+		r.Get("/action_bar/inline_edit", ctr.InlineEdit)
+	})
 	return bar
 }
 
@@ -50,14 +54,13 @@ func (bar *ActionBar) Render(context *admin.Context) template.HTML {
 			actions = append(actions, action)
 		}
 	}
-	context.Context.CurrentUser = bar.Admin.Auth.GetCurrentUser(context)
 	result := map[string]interface{}{
 		"EditMode":      bar.EditMode(context),
 		"Auth":          bar.Admin.Auth,
-		"CurrentUser":   context.Context.CurrentUser,
+		"CurrentUser":   context.Context.CurrentUser(),
 		"Actions":       actions,
 		"InlineActions": inlineActions,
-		"RouterPrefix":  bar.Admin.Router.Prefix(),
+		"RouterPrefix":  bar.Admin.Config.MountPath,
 	}
 	defer context.PushI18nGroup(I18NGROUP)()
 	return context.Render("action_bar/action_bar", result)

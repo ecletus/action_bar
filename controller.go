@@ -5,6 +5,7 @@ import (
 
 	"github.com/aghape/admin"
 	"github.com/aghape/core/utils"
+	"github.com/moisespsena-go/xroute"
 )
 
 type controller struct {
@@ -12,7 +13,8 @@ type controller struct {
 }
 
 // SwitchMode is handle to store switch status in cookie
-func (controller) SwitchMode(context *admin.Context) {
+func (controller) SwitchMode(rctx *xroute.RouteContext) {
+	context := admin.ContextFromRouteContext(rctx)
 	utils.SetCookie(http.Cookie{Name: "qor-action-bar", Value: context.Request.URL.Query().Get("checked")}, context.Context)
 
 	referrer := context.Request.Referer()
@@ -24,6 +26,7 @@ func (controller) SwitchMode(context *admin.Context) {
 }
 
 // InlineEdit using to make inline edit resource shown as slideout
-func (controller) InlineEdit(context *admin.Context) {
+func (controller) InlineEdit(rctx *xroute.RouteContext) {
+	context := admin.ContextFromRouteContext(rctx)
 	context.Writer.Write([]byte(context.Render("action_bar/inline_edit")))
 }
