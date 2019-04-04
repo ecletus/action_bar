@@ -1,7 +1,7 @@
 package action_bar
 
 import (
-	"github.com/moisespsena/go-i18n-modular/i18nmod"
+	"github.com/moisespsena-go/i18n-modular/i18nmod"
 	"github.com/moisespsena-go/path-helpers"
 )
 
