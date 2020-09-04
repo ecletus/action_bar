@@ -88,15 +88,15 @@ func (action HTMLAction) ToHTML(context *admin.Context) template.HTML {
 func toLink(gen utils.URLGenerator, name, link string, admin *admin.Admin) template.HTML {
 	var prefix string
 	if link[0] == '@' {
-		prefix = gen.GenURL()
-		jsURL := fmt.Sprintf("<script data-prefix=\"%v\" src=\"%v/themes/action_bar/javascripts/action_bar_check.js\"></script>", prefix, gen.GenStaticURL(prefix))
-		frameURL := gen.GenURL(prefix, "action_bar/inline_edit")
-		link = gen.GenURL(prefix, link)
+		prefix = gen.JoinPath()
+		jsURL := fmt.Sprintf("<script data-prefix=\"%v\" src=\"%v/themes/action_bar/javascripts/action_bar_check.js\"></script>", prefix, gen.JoinStaticURL(prefix))
+		frameURL := gen.JoinPath(prefix, "action_bar/inline_edit")
+		link = gen.JoinPath(prefix, link)
 		return template.HTML(fmt.Sprintf(`%v<a target="_blank" data-iframe-url="%v" data-url="%v" href="#" class="qor-actionbar-button">%v</a>`, jsURL, frameURL, link, name))
 	}
 	if strings.HasPrefix(link, ":admin/") {
 		link = strings.TrimPrefix(link, ":admin/")
-		link = gen.GenURL(link, admin.Config.MountPath)
+		link = gen.JoinPath(link, admin.Config.MountPath)
 	} else if strings.HasPrefix(link, ":/") {
 		link = link[1:]
 	}

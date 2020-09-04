@@ -6,6 +6,7 @@ import (
 	"github.com/moisespsena-go/xroute"
 
 	"github.com/ecletus/admin"
+	"github.com/ecletus/auth"
 	"github.com/ecletus/core/utils"
 	"github.com/ecletus/core/utils/url"
 	"github.com/moisespsena/template/html/template"
@@ -63,7 +64,7 @@ func (bar *ActionBar) Render(context *admin.Context) template.HTML {
 		"RouterPrefix":  bar.Admin.Config.MountPath,
 	}
 	defer context.PushI18nGroup(I18NGROUP)()
-	return context.Render("action_bar/action_bar", result)
+	return context.RenderHtml("action_bar/action_bar", result)
 }
 
 // FuncMap will return helper to render inline edit button
@@ -83,9 +84,11 @@ func (bar *ActionBar) EditMode(context *admin.Context) bool {
 }
 
 func isEditMode(context *admin.Context) bool {
-	if auth := context.Admin.Auth; auth != nil {
-		if auth.GetCurrentUser(context) == nil {
+	if Auth := context.Admin.Auth; Auth != nil {
+		if user, err := Auth.GetCurrentUser(context); user == nil {
 			return false
+		} else if err != nil && err != auth.ErrNoSession {
+			context.AddError(err)
 		}
 	}
 	if cookie, err := context.Request.Cookie("qor-action-bar"); err == nil {

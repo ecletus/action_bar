@@ -34,11 +34,11 @@ type AdminAuth struct {
 }
 
 func (AdminAuth) LoginURL(c *admin.Context) string {
-	return c.GenGlobalURL("/auth/login")
+	return c.Top().Path("/auth/login")
 }
 
 func (AdminAuth) LogoutURL(c *admin.Context) string {
-	return c.GenGlobalURL("/auth/logout")
+	return c.Top().Path("/auth/logout")
 }
 
 func (AdminAuth) GetCurrentUser(c *admin.Context) core.CurrentUser {
